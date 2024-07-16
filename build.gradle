@@ -30,6 +30,8 @@ plugins {
     id 'idea'
 
     id 'org.openrewrite.rewrite' version '6.16.3'
+
+    id "com.teamscale" version "30.0.2"
 }
 
 // Enable following for debugging
@@ -58,6 +60,25 @@ java {
         // See https://docs.gradle.org/current/javadoc/org/gradle/jvm/toolchain/JvmVendorSpec.html for a full list
         // vendor = JvmVendorSpec.AMAZON
     }
+}
+
+
+teamscale{
+    server{
+        url = 'http://localhost:8080/'
+        username = 'englandeliza'
+        userAccessToken = 'a5pQatI34zKiWuP9lnOX56UJzDkWynmg'
+        project = 'eliza-jabref'
+
+    }
+    report{
+        testwiseCoverage{
+            partition ='Unit Tests'
+
+        }
+    }
+
+    
 }
 
 application {
@@ -439,6 +460,16 @@ tasks.withType(JavaCompile).configureEach {
 
     // hint by https://docs.gradle.org/current/userguide/performance.html#run_the_compiler_as_a_separate_process
     options.fork = true
+}
+
+tasks.register('eliza-jabref',com.teamscale.TestImpacted){
+    useJUnitPlatform()
+    jacoco{
+        includes = ["org-jabref.*"]
+    }
+
+    ignoreFailures = true
+
 }
 
 compileJava {
@@ -852,3 +883,4 @@ jmh {
     iterations = 10
     fork = 2
 }
+
