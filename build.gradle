@@ -31,7 +31,7 @@ plugins {
 
     id 'org.openrewrite.rewrite' version '6.16.3'
 
-    id "com.teamscale" version "30.0.2"
+    id 'com.teamscale' version '30.0.2'
 }
 
 // Enable following for debugging
@@ -66,7 +66,7 @@ java {
 teamscale{
     server{
         url = 'http://localhost:8080/'
-        username = 'englandeliza'
+        userName = 'englandeliza'
         userAccessToken = 'a5pQatI34zKiWuP9lnOX56UJzDkWynmg'
         project = 'eliza-jabref'
 
@@ -462,10 +462,10 @@ tasks.withType(JavaCompile).configureEach {
     options.fork = true
 }
 
-tasks.register('eliza-jabref',com.teamscale.TestImpacted){
+tasks.register('tiaTests',com.teamscale.TestImpacted){
     useJUnitPlatform()
     jacoco{
-        includes = ["org-jabref.*"]
+        
     }
 
     ignoreFailures = true
@@ -883,4 +883,3 @@ jmh {
     iterations = 10
     fork = 2
 }
-
